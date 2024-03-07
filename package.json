@@ -1,0 +1,20 @@
+{
+  "name": "graphic_computer_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "npm install && npx vite",
+    "update": "npm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "three": "^0.162.0"
+  },
+  "devDependencies": {
+    "vite": "^5.1.5"
+  }
+}

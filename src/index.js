@@ -12,11 +12,21 @@ document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
 let mixer;
-loader.load('/static/scene/dancing.glb', function (gltf) {
+loader.load('/static/scene/untitled.glb', function (gltf) {
     mixer = new THREE.AnimationMixer(gltf.scene);
+
+    console.log(gltf.scene.children);
+
+    //fix mat error, set depthWrite to true
+    gltf.scene.children[2].children[0].children[0].material.depthWrite = true;
+
+    gltf.scene.children[0] = new THREE.AmbientLight(0xffffff, 3);
+
+    gltf.scene.background = new THREE.Color(0,0,0);
+
     scene.add(gltf.scene);
     camera = gltf.cameras[0];
-    const action = mixer.clipAction(gltf.animations[2]);
+    const action = mixer.clipAction(gltf.animations[0]);
     action.play();
 }, undefined, function (error) {
     console.error(error);

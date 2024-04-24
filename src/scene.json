@@ -1,0 +1,14 @@
+{
+  "scenes": [
+    {
+      "url": "./static/scene/dancing.glb",
+      "animation": [
+        "Root|clip|Base_Layer.001Retarget"
+      ]
+    },
+    {
+      "url": "./static/scene/untitled.glb",
+      "type": "glb"
+    }
+  ]
+}

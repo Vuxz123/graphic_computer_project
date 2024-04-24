@@ -1,14 +1,31 @@
 {
   "scenes": [
     {
-      "url": "./static/scene/dancing.glb",
-      "animation": [
-        "Root|clip|Base_Layer.001Retarget"
+      "pos": 0,
+      "url": "./static/scene/Scene1_1.glb",
+      "animations": [
+        "Character1_Reference.001Action",
+        "CameraAction",
+        "ArmatureAction",
+        "FemaleAction",
+        "ArmaturePouncerAction",
+        "WingFoldD"
       ]
     },
     {
-      "url": "./static/scene/untitled.glb",
-      "type": "glb"
+      "pos": 1,
+      "url": "./static/scene/Scene7_1.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 2,
+      "url": "./static/scene/Scene9_1.glb",
+      "animations": [
+        "Scene"
+      ],
+      "custom": "function (gltf) {gltf.scene.children[0].children[4].children[0].children[0].material.depthWrite = true;}"
     }
   ]
 }

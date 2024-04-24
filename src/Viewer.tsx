@@ -1,6 +1,6 @@
-import react from 'react';
-import React from "react";
+import React from 'react';
 import {ViewerController} from "./SceneLoader";
+import {Spin} from "antd";
 
 
 // Viewer component with 1 parameter type ViewerController
@@ -28,7 +28,7 @@ export const Viewer = (props: { controller: ViewerController; }) => {
     const mount = React.useRef<HTMLDivElement>(null);
     React.useEffect(() => {
         console.log("Adding dom element to the scene");
-        if(mount.current) {
+        if (mount.current) {
             console.log("effect: " + controller.domElement);
             console.log(controller.domElement);
             mount.current.appendChild(controller.domElement);
@@ -43,14 +43,14 @@ export const Viewer = (props: { controller: ViewerController; }) => {
         });
     }, [controller]);
     React.useEffect(() => {
-        if(!loading){
+        if (!loading) {
             controller.render();
         }
     }, [loading]);
 
     return (
         loading ?
-            <div>Loading...</div> :
+            <Spin fullscreen/> :
             <div ref={mount}></div>
     );
 

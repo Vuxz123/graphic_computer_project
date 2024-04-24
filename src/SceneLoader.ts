@@ -61,19 +61,38 @@ class SceneLoader {
 
     async loadJSON(): Promise<number> {
         const scenes = sceneJS.scenes;
+        console.log("SceneJS: ",scenes);
         this.nTotal = scenes.length;
-        const loadScenePromises = scenes.map(scene => this.loadScene(scene.url));
+        const loadScenePromises = scenes.map(scene => this.loadScene(scene));
         await Promise.all(loadScenePromises);
+        console.log("Loaded all scenes");
         return 0;
     }
 
-    async loadScene(url: string): Promise<Scene> {
+    async loadScene(scene): Promise<Scene> {
         let s: Scene;
-        await this.loadSceneData(url).then(data => {
-            const scene = data.scene;
+        await this.loadSceneData(scene.url).then(data => {
+            const sceneLoaded = data.scene;
             const camera = data.cameras[0];
-            const clips = data.animations;
-            s = new Scene(scene, camera, clips, () => {
+
+            //if data contains custom, run custom function
+            console.log("Custom: ", scene.custom);
+            if(scene.custom !== undefined) {
+                console.log("Running custom function");
+                const custom = new Function('return ' + scene.custom)();
+                custom(data);
+            }
+            //get clip that match the scene.animations name
+            console.log("Data animations: ", data.animations.map(clip => clip.name));
+            console.log("Animations: ", scene.animations)
+            const clips = data.animations.filter(clip => {
+                return scene.animations.includes(clip.name);
+            });
+            //if clips empty, throw error
+            if(clips.length === 0) {
+                console.error("No clips found for scene");
+            }
+            s = new Scene(scene.url ,scene.pos , sceneLoaded, camera, clips, () => {
                 console.log("Finished scene");
             });
             this._scenes.push(s);
@@ -85,7 +104,10 @@ class SceneLoader {
 
     async loadSceneData(url: string) : Promise<any> {
         return new Promise((resolve, reject) => {
-            this.loader.load(url, data=> resolve(data), null, reject);
+            this.loader.load(url, (data) => {
+                console.log("Data load:", data);
+                resolve(data);
+            }, null, reject);
         });
     }
 
@@ -100,28 +122,32 @@ class SceneLoader {
 }
 
 class Scene {
-    //readonly scene: THREE.Scene;
+    readonly pos: number;
+    readonly name: string;
     readonly scene: THREE.Scene;
     readonly _camera: THREE.Camera;
     readonly mixer: THREE.AnimationMixer;
-    private _animations: THREE.AnimationAction[];
+    _finishedAnimations = 0;
+    _animations: THREE.AnimationAction[];
 
-    constructor(scene: THREE.Scene, camera: THREE.Camera, clips: THREE.AnimationClip[], onFinished?: () => void) {
-        console.log("c");
+    constructor(name: string, pos: number, scene: THREE.Scene, camera: THREE.Camera, clips: THREE.AnimationClip[], onFinished?: () => void) {
         this.scene = scene;
+        this.pos = pos;
+        this.name = name;
         this._camera = camera;
         this.mixer = new THREE.AnimationMixer(scene);
         this.loadAnimation(clips);
         this.mixer.addEventListener('finished', onFinished);
-        console.log("a");
     }
 
     private loadAnimation(clips: THREE.AnimationClip[]) {
         // Load animations
-        this._animations = clips.map(clip => this.mixer.clipAction(clip));
-        this._animations.forEach(anim => {
-            anim.
-            anim.play()
+        this._animations = clips.map(clip => {
+            const action = this.mixer.clipAction(clip);
+            action.setLoop(THREE.LoopOnce); // Set loop mode to LoopOnce
+            action.clampWhenFinished = true; // Clamp action's time to its duration
+            action.play();
+            return action;
         });
     }
 
@@ -148,20 +174,26 @@ class Movie {
     private _scenes: Scene[] = [];
 
     constructor(scenes: Scene[], renderer: THREE.WebGLRenderer) {
+        console.log(scenes);
+        scenes.sort((a, b) => a.pos - b.pos);
         this._scene = scenes[0];
         this._renderer = renderer;
         this._clock = new THREE.Clock();
+        console.log("Scenes: ", scenes)
         for (let i = 0; i < scenes.length; i++) {
-            console.log("Adding scene " + i);
             this._scenes.push(scenes[i]);
             if (i < scenes.length - 1) {
                 scenes[i].mixer.addEventListener('finished', () => {
-                    console.log("Next Scene! " + i);
-                    console.log(scenes[i+1]);
-                    this._scene = scenes[i + 1];
+                    scenes[i]._finishedAnimations++;
+                    if (scenes[i]._finishedAnimations >= scenes[i]._animations.length) {
+                        console.log("Next Scene! " + i);
+                        console.log(scenes[i+1]);
+                        this._scene = scenes[i + 1];
+                    }
                 });
             }
         }
+        console.log("Movie created: ", this._scene);
     }
 
     get scene(): Scene {

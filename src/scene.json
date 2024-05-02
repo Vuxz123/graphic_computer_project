@@ -14,13 +14,27 @@
     },
     {
       "pos": 1,
-      "url": "./static/scene/Scene7_1.glb",
+      "url": "./static/scene/scene7_1.glb",
       "animations": [
         "Scene"
       ]
     },
     {
       "pos": 2,
+      "url": "./static/scene/scene7_2.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 3,
+      "url": "./static/scene/scene8.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 4,
       "url": "./static/scene/Scene9_1.glb",
       "animations": [
         "Scene"

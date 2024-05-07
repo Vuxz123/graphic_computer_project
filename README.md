@@ -19,11 +19,5 @@ Run `run.bat` in the Project Directory.
 ### Linux distros
 
 ```sh
-npx vite
+npm start
 ```
-
-## Remaining tasks (Mar 28, 2024)
-
-- Run this on every local machine.
-- Find existing assets online that can help with rendering pictures
-- Filming for animations.

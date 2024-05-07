@@ -14,28 +14,56 @@
     },
     {
       "pos": 1,
-      "url": "./static/scene/scene7_1.glb",
+      "url": "./static/scene/scene4_1.glb",
       "animations": [
         "Scene"
       ]
     },
     {
       "pos": 2,
-      "url": "./static/scene/scene7_2.glb",
+      "url": "./static/scene/scene5_1.glb",
       "animations": [
         "Scene"
       ]
     },
     {
       "pos": 3,
-      "url": "./static/scene/scene8.glb",
+      "url": "./static/scene/scene5_2.glb",
       "animations": [
         "Scene"
       ]
     },
     {
       "pos": 4,
-      "url": "./static/scene/Scene9_1.glb",
+      "url": "./static/scene/scene6_1.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 5,
+      "url": "./static/scene/scene7_1.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 6,
+      "url": "./static/scene/scene7_2.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 7,
+      "url": "./static/scene/scene8.glb",
+      "animations": [
+        "Scene"
+      ]
+    },
+    {
+      "pos": 8,
+      "url": "./static/scene/scene9_1.glb",
       "animations": [
         "Scene"
       ],
